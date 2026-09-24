@@ -1,0 +1,67 @@
+
+        
+         @theme {
+    --color-vault-black: #111111;
+    --color-vault-cream: #F9F6F0;
+    --color-vault-beige: #E8E2D5;
+    --color-vault-accent: #6B1D2F;
+    --color-vault-muted: #8C857B;
+    --color-vault-lightbg: #F3EFE6;
+
+    --font-serif: "Playfair Display", serif;
+    --font-sans: "Inter", sans-serif;
+  }
+        /* Custom Scrollbar for Luxury Aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6B1D2F;
+            border-radius: 3px;
+        }
+
+        /* Image Parallax Effect Classes */
+        .parallax-bg {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .group:hover .parallax-bg {
+            transform: scale(1.05);
+        }
+
+        /* Custom Grain / Texture Overlay */
+        .grain-overlay {
+            background-image: radial-gradient(rgba(17, 17, 17, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+
+
+.look-card.hidden-card {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+}
+
+        /* Modal backdrop blur transition */
+        .modal-enter {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Glassmorphism nav */
+        .nav-blur {
+            background-color: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    

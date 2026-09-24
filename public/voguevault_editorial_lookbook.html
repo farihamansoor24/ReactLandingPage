@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VogueVault — Editorial Fashion & Style Lookbook</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vault: {
+                            black: '#111111',
+                            cream: '#F9F6F0',
+                            beige: '#E8E2D5',
+                            accent: '#6B1D2F',
+                            muted: '#8C857B',
+                            lightbg: '#F3EFE6'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111111; }
+        ::-webkit-scrollbar-thumb { background: #6B1D2F; border-radius: 3px; }
+
+        .parallax-bg { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .group:hover .parallax-bg { transform: scale(1.05); }
+        .grain-overlay {
+            background-image: radial-gradient(rgba(17, 17, 17, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .look-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .look-card.hidden-card {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
+        }
+
+        .nav-blur {
+            background-color: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-vault-black text-vault-cream font-sans antialiased selection:bg-vault-accent selection:text-white overflow-x-hidden">
+
+    <!-- NAVIGATION BAR -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+            <button id="mobile-menu-btn" class="md:hidden text-vault-cream text-xl focus:outline-none" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <a href="#" class="text-2xl md:text-3xl font-serif tracking-widest font-bold uppercase hover:opacity-80 transition">
+                VOGUE<span class="text-vault-accent italic font-normal">VAULT</span>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-10 text-xs tracking-widest uppercase font-medium">
+                <a href="#hero" class="hover:text-vault-accent transition-colors">Collections</a>
+                <a href="#lookbook" class="hover:text-vault-accent transition-colors">Lookbook</a>
+                <a href="#stories" class="hover:text-vault-accent transition-colors">Editorial Stories</a>
+                <a href="#about" class="hover:text-vault-accent transition-colors">About Vault</a>
+            </nav>
+
+            <div class="flex items-center space-x-6 text-sm">
+                <button id="search-toggle-btn" class="hover:text-vault-accent transition focus:outline-none" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button id="bookmark-toggle-btn" class="hover:text-vault-accent transition relative focus:outline-none" title="Saved Looks">
+                    <i class="fa-regular fa-bookmark"></i>
+                    <span id="bookmark-count" class="absolute -top-2 -right-2 bg-vault-accent text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+                <button id="newsletter-btn" class="hidden sm:inline-block border border-vault-cream/30 hover:border-vault-accent hover:bg-vault-accent px-4 py-1.5 text-xs tracking-widest uppercase transition-all duration-300">
+                    VIP Access
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-vault-black border-b border-white/10 px-6 py-6 transition-all duration-300">
+            <nav class="flex flex-col space-y-4 text-sm tracking-widest uppercase">
+                <a href="#hero" class="mobile-nav-link hover:text-vault-accent transition">Collections</a>
+                <a href="#lookbook" class="mobile-nav-link hover:text-vault-accent transition">Lookbook</a>
+                <a href="#stories" class="mobile-nav-link hover:text-vault-accent transition">Editorial Stories</a>
+                <a href="#about" class="mobile-nav-link hover:text-vault-accent transition">About Vault</a>
+                <button id="mobile-newsletter-btn" class="w-full text-left border border-vault-accent text-vault-accent hover:bg-vault-accent hover:text-white py-2 px-3 text-xs tracking-widest uppercase transition">
+                    Subscribe VIP Newsletter
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 px-6 md:px-12 flex items-center justify-center overflow-hidden border-b border-white/10">
+        <div class="absolute inset-0 grain-overlay opacity-30 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div class="lg:col-span-6 space-y-6 lg:pr-8">
+                <div class="inline-flex items-center space-x-2 text-xs tracking-widest uppercase text-vault-accent font-semibold">
+                    <span class="w-8 h-px bg-vault-accent"></span>
+                    <span>Autumn / Winter '26 Collection</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-normal leading-[1.05] tracking-tight">
+                    Architectural <br/>
+                    <span class="italic font-light text-vault-beige">Symphony</span>
+                </h1>
+                
+                <p class="text-vault-muted text-sm md:text-base max-w-lg leading-relaxed font-light">
+                    An exploration of sculptural silhouettes, unyielding textures, and timeless monochromatic elegance. Designed for those who perceive fashion as wearable fine art.
+                </p>
+
+                <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="#lookbook" class="bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-8 py-4 text-xs font-semibold tracking-widest uppercase transition-all duration-300 text-center shadow-lg">
+                        Explore Lookbook
+                    </a>
+                    <a href="#stories" class="border border-white/20 hover:border-vault-cream px-8 py-4 text-xs font-semibold tracking-widest uppercase transition-all duration-300 text-center">
+                        Read Story Feature
+                    </a>
+                </div>
+
+                <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4 text-left">
+                    <div>
+                        <p class="text-2xl font-serif font-bold text-vault-cream">42</p>
+                        <p class="text-[10px] uppercase tracking-wider text-vault-muted">Curated Looks</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-serif font-bold text-vault-cream">12</p>
+                        <p class="text-[10px] uppercase tracking-wider text-vault-muted">Global Designers</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-serif font-bold text-vault-cream">Limited</p>
+                        <p class="text-[10px] uppercase tracking-wider text-vault-muted">Haute Couture</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 relative flex justify-center items-center mt-8 lg:mt-0">
+                <div class="absolute -top-4 -left-4 w-3/4 h-3/4 border border-vault-accent/40 rounded-sm pointer-events-none hidden sm:block"></div>
+                
+                <div class="relative z-10 overflow-hidden shadow-2xl group w-full max-w-md lg:max-w-none">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop" 
+                         alt="High Fashion Editorial Model AW26" 
+                         class="w-full h-[550px] md:h-[650px] object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Haute+Couture+AW26'">
+                    
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-vault-black/90 via-vault-black/40 to-transparent p-6 flex justify-between items-end">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-widest text-vault-accent font-mono block">Look 01 / AW26</span>
+                            <span class="text-lg font-serif font-semibold">The Sculpted Wool Overcoat</span>
+                        </div>
+                        <span class="text-xs font-mono text-vault-beige border-b border-vault-beige pb-0.5">$3,450</span>
+                    </div>
+                </div>
+
+                <div class="absolute -bottom-6 -right-2 sm:right-4 z-20 w-44 sm:w-56 bg-vault-black/90 backdrop-blur-md p-3 border border-white/10 shadow-2xl hidden sm:block">
+                    <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=400&auto=format&fit=crop" 
+                         alt="Accessory Detail" 
+                         class="w-full h-32 object-cover mb-2"
+                         onerror="this.src='https://placehold.co/300x200/111111/F9F6F0?text=Accessory+Detail'">
+                    <p class="text-[11px] font-serif font-medium text-vault-cream">Monochrome Leather Harness</p>
+                    <p class="text-[9px] uppercase tracking-widest text-vault-accent mt-0.5">Paris Runway Edition</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOOKBOOK GALLERY SECTION -->
+    <section id="lookbook" class="py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-white/10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 space-y-6 md:space-y-0">
+            <div>
+                <span class="text-xs tracking-widest uppercase text-vault-accent font-semibold block mb-2">Curated Selection</span>
+                <h2 class="text-4xl md:text-5xl font-serif">The Lookbook Grid</h2>
+            </div>
+
+            <div id="filter-container" class="flex flex-wrap gap-2 sm:gap-4 border-b border-white/10 pb-2">
+                <button data-filter="all" class="filter-btn text-xs tracking-widest uppercase px-3 py-1.5 transition text-vault-accent border-b-2 border-vault-accent font-medium">All Looks</button>
+                <button data-filter="couture" class="filter-btn text-xs tracking-widest uppercase px-3 py-1.5 transition text-vault-muted hover:text-vault-cream">Haute Couture</button>
+                <button data-filter="streetwear" class="filter-btn text-xs tracking-widest uppercase px-3 py-1.5 transition text-vault-muted hover:text-vault-cream">Avant-Street</button>
+                <button data-filter="minimalist" class="filter-btn text-xs tracking-widest uppercase px-3 py-1.5 transition text-vault-muted hover:text-vault-cream">Minimalist</button>
+                <button data-filter="accessories" class="filter-btn text-xs tracking-widest uppercase px-3 py-1.5 transition text-vault-muted hover:text-vault-cream">Accessories</button>
+            </div>
+        </div>
+
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px] relative">
+            
+            <!-- LOOK CARD 1 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="couture">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" 
+                         alt="Structured Velvet Trench" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+01'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="1"
+                                data-title="Structured Velvet Trench"
+                                data-category="Haute Couture"
+                                data-price="$2,890"
+                                data-img="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Tailored architectural blazer trench with sharp exaggerated shoulders and deep burgundy velvet lapels. Hand-stitched in Milan.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Couture
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #001</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Structured Velvet Trench</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$2,890</span>
+                </div>
+            </div>
+
+            <!-- LOOK CARD 2 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="minimalist">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop" 
+                         alt="Draped Silk Monochrome Gown" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+02'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="2"
+                                data-title="Draped Silk Monochrome Gown"
+                                data-category="Minimalist"
+                                data-price="$1,950"
+                                data-img="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Heavy weight Japanese mulberry silk gown featuring an asymmetrical draped neckline and fluid column silhouette.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Minimalist
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #002</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Draped Silk Gown</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$1,950</span>
+                </div>
+            </div>
+
+            <!-- LOOK CARD 3 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="streetwear">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" 
+                         alt="Oversized Leather Matrix Coat" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+03'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="3"
+                                data-title="Oversized Leather Matrix Coat"
+                                data-category="Avant-Street"
+                                data-price="$3,100"
+                                data-img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Heavy grade calfskin leather floor-length coat with custom brushed steel hardware and drop-shoulder tailoring.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Avant-Street
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #003</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Oversized Matrix Coat</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$3,100</span>
+                </div>
+            </div>
+
+            <!-- LOOK CARD 4 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="accessories">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?q=80&w=800&auto=format&fit=crop" 
+                         alt="Sculptural Obsidian Eyewear" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+04'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="4"
+                                data-title="Sculptural Obsidian Eyewear"
+                                data-category="Accessories"
+                                data-price="$620"
+                                data-img="https://images.unsplash.com/photo-1508296695146-257a814070b4?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Hand-cut Japanese acetate frames with dark obsidian polarized lenses and anti-reflective titanium inner rim.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Accessories
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #004</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Obsidian Eyewear</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$620</span>
+                </div>
+            </div>
+
+            <!-- LOOK CARD 5 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="couture">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?q=80&w=800&auto=format&fit=crop" 
+                         alt="Crimson Velvet Haute Jacket" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+05'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="5"
+                                data-title="Crimson Velvet Haute Jacket"
+                                data-category="Haute Couture"
+                                data-price="$4,200"
+                                data-img="https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Deep burgundy silk-blend velvet jacket with hand-burnished golden metal buttons and corset boning structure inside.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Couture
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #005</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Crimson Haute Jacket</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$4,200</span>
+                </div>
+            </div>
+
+            <!-- LOOK CARD 6 -->
+            <div class="look-card group relative bg-vault-black border border-white/10 overflow-hidden" data-category="minimalist">
+                <div class="relative h-[480px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=800&auto=format&fit=crop" 
+                         alt="Pleated Sandstone Trousers Set" 
+                         class="w-full h-full object-cover parallax-bg"
+                         onerror="this.src='https://placehold.co/600x800/111111/F9F6F0?text=Look+06'">
+                    
+                    <div class="absolute inset-0 bg-vault-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 text-center">
+                        <button class="quick-view-btn bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white px-6 py-3 text-xs tracking-widest uppercase font-semibold transition transform translate-y-4 group-hover:translate-y-0 duration-300"
+                                data-id="6"
+                                data-title="Pleated Sandstone Trousers Set"
+                                data-category="Minimalist"
+                                data-price="$1,420"
+                                data-img="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=800&auto=format&fit=crop"
+                                data-desc="Minimalist sand beige high-waisted pleated wool trousers paired with a seamless modal under-layer top.">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <button class="bookmark-card-btn absolute top-4 right-4 bg-vault-black/80 hover:bg-vault-accent text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition z-10" title="Bookmark Look">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                    <span class="absolute top-4 left-4 bg-vault-black/80 border border-white/20 text-[10px] tracking-widest uppercase px-2.5 py-1 text-vault-beige">
+                        Minimalist
+                    </span>
+                </div>
+                
+                <div class="p-5 flex justify-between items-start border-t border-white/10">
+                    <div>
+                        <p class="text-xs font-mono text-vault-muted uppercase">Look #006</p>
+                        <h3 class="text-lg font-serif font-semibold mt-0.5 group-hover:text-vault-beige transition">Sandstone Trousers Set</h3>
+                    </div>
+                    <span class="text-sm font-mono text-vault-cream font-medium">$1,420</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- QUICK VIEW MODAL OVERLAY -->
+    <div id="quick-view-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-vault-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-vault-black border border-white/20 max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl">
+            
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-vault-muted hover:text-white text-xl p-2 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="h-80 md:h-[450px] overflow-hidden bg-vault-black">
+                    <img id="modal-img" src="" alt="Look Detail" class="w-full h-full object-cover">
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <span id="modal-category" class="text-xs tracking-widest uppercase text-vault-accent font-semibold block mb-1">
+                            Category
+                        </span>
+                        <h3 id="modal-title" class="text-2xl md:text-3xl font-serif font-bold">
+                            Item Title
+                        </h3>
+                        <p id="modal-price" class="text-xl font-mono text-vault-beige mt-2">
+                            $0,000
+                        </p>
+                    </div>
+
+                    <p id="modal-desc" class="text-vault-muted text-xs md:text-sm leading-relaxed font-light">
+                        Description loading...
+                    </p>
+
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-vault-muted block mb-2 font-mono">Available Color Swatches</label>
+                        <div class="flex space-x-3">
+                            <button class="w-7 h-7 rounded-full bg-[#111111] border-2 border-vault-accent focus:outline-none" title="Obsidian Black"></button>
+                            <button class="w-7 h-7 rounded-full bg-[#6B1D2F] border-2 border-transparent hover:border-vault-cream focus:outline-none" title="Burgundy Velvet"></button>
+                            <button class="w-7 h-7 rounded-full bg-[#E8E2D5] border-2 border-transparent hover:border-vault-cream focus:outline-none" title="Sandstone Cream"></button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-vault-muted block mb-2 font-mono">Select Size</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button class="size-btn border border-white/20 hover:border-vault-accent py-2 text-xs font-mono transition uppercase">XS</button>
+                            <button class="size-btn border border-vault-accent text-vault-accent py-2 text-xs font-mono transition uppercase font-bold">S</button>
+                            <button class="size-btn border border-white/20 hover:border-vault-accent py-2 text-xs font-mono transition uppercase">M</button>
+                            <button class="size-btn border border-white/20 hover:border-vault-accent py-2 text-xs font-mono transition uppercase">L</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex space-x-4">
+                        <button id="modal-add-btn" class="flex-1 bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white py-3 text-xs tracking-widest uppercase font-semibold transition">
+                            Acquire Look
+                        </button>
+                        <button id="modal-bookmark-btn" class="border border-white/20 hover:border-vault-accent px-4 py-3 text-sm transition">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* 1. STICKY HEADER */
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('nav-blur', 'py-1');
+                } else {
+                    header.classList.remove('nav-blur', 'py-1');
+                }
+            });
+
+            /* 2. MOBILE MENU TOGGLE */
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            /* 3. LOOKBOOK FILTERING SYSTEM */
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const lookCards = document.querySelectorAll('.look-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('text-vault-accent', 'border-b-2', 'border-vault-accent', 'font-medium');
+                        b.classList.add('text-vault-muted');
+                    });
+                    btn.classList.add('text-vault-accent', 'border-b-2', 'border-vault-accent', 'font-medium');
+                    btn.classList.remove('text-vault-muted');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    lookCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        if (filterValue === 'all' || filterValue === cardCategory) {
+                            card.classList.remove('hidden-card');
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        } else {
+                            card.classList.add('hidden-card');
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.95)';
+                        }
+                    });
+                });
+            });
+
+            /* 4. QUICK VIEW MODAL FIX */
+            const quickViewModal = document.getElementById('quick-view-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const quickViewBtns = document.querySelectorAll('.quick-view-btn');
+
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalCategory = document.getElementById('modal-category');
+            const modalPrice = document.getElementById('modal-price');
+            const modalDesc = document.getElementById('modal-desc');
+
+            quickViewBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const imgSrc = btn.getAttribute('data-img');
+                    modalImg.src = imgSrc;
+                    modalTitle.textContent = btn.getAttribute('data-title');
+                    modalCategory.textContent = btn.getAttribute('data-category');
+                    modalPrice.textContent = btn.getAttribute('data-price');
+                    modalDesc.textContent = btn.getAttribute('data-desc');
+
+                    // Smooth Display
+                    quickViewModal.classList.remove('opacity-0', 'pointer-events-none');
+                });
+            });
+
+            const closeModal = () => {
+                quickViewModal.classList.add('opacity-0', 'pointer-events-none');
+            };
+
+            closeModalBtn.addEventListener('click', closeModal);
+
+            quickViewModal.addEventListener('click', (e) => {
+                if (e.target === quickViewModal) {
+                    closeModal();
+                }
+            });
+
+            /* Size button selection */
+            const sizeBtns = document.querySelectorAll('.size-btn');
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeBtns.forEach(b => {
+                        b.classList.remove('border-vault-accent', 'text-vault-accent', 'font-bold');
+                        b.classList.add('border-white/20');
+                    });
+                    btn.classList.add('border-vault-accent', 'text-vault-accent', 'font-bold');
+                    btn.classList.remove('border-white/20');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
