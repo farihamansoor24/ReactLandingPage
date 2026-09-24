@@ -1,22 +1,46 @@
-import React from 'react';
+import React, { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 
-// 1. Props ko object destructuring ({ isOpen, onClose, data }) me receive karein
+// Object destructuring for props
 const Modal = ({ isOpen, onClose, data }) => {
-  // 2. if modal is not open or data is not available, return null to prevent rendering
+  const modalRef = useRef(null)
+
+  // 1. All hooks MUST be called at the top level (before any return statement)
+  useGSAP(() => {
+    if (isOpen && data && modalRef.current) {
+      gsap.fromTo(
+        modalRef.current,
+        {
+          opacity: 0,
+          scale: 0.8,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+        }
+      );
+    }
+  }, { scope: modalRef, dependencies: [isOpen, data] });
+
+  // 2. Early return statement placed AFTER all hooks
   if (!isOpen || !data) return null;
 
   return (
-    // 3. Conditional overlay styling and close handler
+    // Conditional overlay styling and close handler
     <div 
+      ref={modalRef}
       id="quick-view-modal" 
-     className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-vault-black/90 backdrop-blur-md transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-vault-black/90 backdrop-blur-md transition-opacity duration-300 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
       onClick={onClose}
     >
       <div 
         className="bg-vault-black border border-white/20 max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl"
-        onClick={(e) => e.stopPropagation()} // Card ke andar click hone par modal close na ho
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside card content
       >
         
         {/* Close Button */}
@@ -33,24 +57,26 @@ const Modal = ({ isOpen, onClose, data }) => {
           <div className="h-80 md:h-[450px] overflow-hidden bg-vault-black">
             <img 
               id="modal-img" 
-              src={data.img} 
-              alt={data.title} 
+              src={data.img || data.imgSrc} 
+              alt={data.title || data.title1} 
               className="w-full h-full object-cover" 
             />
           </div>
 
-          {/* Modal Product Details - Binded with dynamic props */}
+          {/* Modal Product Details - Dynamic props binding */}
           <div className="space-y-6">
             <div>
               <span id="modal-category" className="text-xs tracking-widest uppercase text-vault-accent font-semibold block mb-1">
-                {data.fullCategory || data.categoryName}
+                {data.fullCategory || data.categoryName || data.title1}
               </span>
-              <h3 id="modal-title" className="text-2xl md:text-3xl font-serif font-bold">
-                {data.title}
+              <h3 id="modal-title" className="text-2xl md:text-3xl font-serif font-bold text-vault-cream">
+                {data.title || data.title2}
               </h3>
-              <p id="modal-price" className="text-xl font-mono text-vault-beige mt-2">
-                {data.price}
-              </p>
+              {data.price && (
+                <p id="modal-price" className="text-xl font-mono text-vault-beige mt-2">
+                  {data.price}
+                </p>
+              )}
             </div>
 
             <p id="modal-desc" className="text-vault-muted text-xs md:text-sm leading-relaxed font-light">
@@ -83,7 +109,7 @@ const Modal = ({ isOpen, onClose, data }) => {
               <button id="modal-add-btn" className="flex-1 bg-vault-cream text-vault-black hover:bg-vault-accent hover:text-white py-3 text-xs tracking-widest uppercase font-semibold transition">
                 Acquire Look
               </button>
-              <button id="modal-bookmark-btn" className="border border-white/20 hover:border-vault-accent px-4 py-3 text-sm transition">
+              <button id="modal-bookmark-btn" className="border border-white/20 hover:border-vault-accent px-4 py-3 text-sm transition text-vault-cream">
                 <i className="fa-regular fa-bookmark"></i>
               </button>
             </div>

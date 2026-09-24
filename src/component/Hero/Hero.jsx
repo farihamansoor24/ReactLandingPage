@@ -9,7 +9,7 @@ const Hero = () => {
 
   useGSAP(() => {
     // 1. Set position of hero section to top on page load
-    // window.scrollTo(0, 0);
+     window.scrollTo(0, 0);
     // Stagger for hero image and contetn
     gsap.fromTo('.hero-animate', 
       { opacity: 0, y: 40 }, 
