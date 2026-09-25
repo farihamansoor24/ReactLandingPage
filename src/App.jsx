@@ -8,7 +8,7 @@ import About from './component/About/About';
 import Footer from './component/Footer/Footer';
 
 function App() {
-  const appRef = useRef(null);
+  // const appRef = useRef(null);
 
   // useEffect(() => {
   //   const { gsap, ScrollTrigger } = window;
