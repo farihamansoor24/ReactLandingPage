@@ -3,7 +3,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import {useRef} from 'react'
 import Card from "../Card/Card"
-import Modal from '../Modal/Modal'
 
 gsap.registerPlugin(ScrollTrigger);
  const Stories = () => {

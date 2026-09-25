@@ -54,7 +54,7 @@ const Header = () => {
                 </div>
 
                 {/* Brand Logo */}
-                <a href="#" className="brand-logo text-2xl md:text-3xl font-serif tracking-widest font-bold uppercase hover:opacity-80 transition inline-block">
+                <a href="#root" className="brand-logo text-2xl md:text-3xl font-serif tracking-widest font-bold uppercase hover:opacity-80 transition inline-block">
                     VOGUE<span className="text-vault-accent italic font-normal">VAULT</span>
                 </a>
 

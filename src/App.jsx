@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useRef } from 'react';
+// import React, { useEffect, useRef } from 'react';
 import Header from './component/Header/Header';
 import Hero from './component/Hero/Hero';
 import Lookbook from './component/Lookbook/Lookbook';

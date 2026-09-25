@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import  { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import Button from '../Button/Button'
+// import Button from '../Button/Button'
 import LinkButton from '../Link/Link'
 
 const Hero = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
  const Card = ({ imgSrc, readtime, title1, title2, desc, readBy } ) => {
 
   return (
