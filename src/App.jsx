@@ -118,7 +118,7 @@ function App() {
   // }, []);
 
   return (
-    <div ref={appRef} className="bg-vault-black text-vault-cream min-h-screen overflow-x-hidden">
+    <div className="bg-vault-black text-vault-cream min-h-screen overflow-x-hidden">
       <Header />
       <Hero />
       <Lookbook />
